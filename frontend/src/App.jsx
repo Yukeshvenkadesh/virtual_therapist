@@ -23,9 +23,14 @@ export default function App() {
     return trimmed.replace(/\/api$/, "")
   }
 
-  const AUTH_API = normalizeBase(import.meta.env.VITE_AUTH_API_URL || "http://localhost:4000")
-  // Frontend should call backend for analysis; backend proxies to model service
-  const ANALYSIS_API = normalizeBase(import.meta.env.VITE_ANALYSIS_API_URL || AUTH_API || "http://localhost:4000")
+  const BACKEND_API = normalizeBase(
+    import.meta.env.VITE_BACKEND_URL ||
+      import.meta.env.VITE_AUTH_API_URL ||
+      import.meta.env.VITE_ANALYSIS_API_URL ||
+      "http://localhost:4000",
+  )
+  const AUTH_API = BACKEND_API
+  const ANALYSIS_API = BACKEND_API
 
   const location = useLocation()
   const title = useMemo(() => {
